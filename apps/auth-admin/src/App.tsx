@@ -9,22 +9,26 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
-import { OrderList } from "./order/OrderList";
-import { OrderCreate } from "./order/OrderCreate";
-import { OrderEdit } from "./order/OrderEdit";
-import { OrderShow } from "./order/OrderShow";
-import { CustomerList } from "./customer/CustomerList";
-import { CustomerCreate } from "./customer/CustomerCreate";
-import { CustomerEdit } from "./customer/CustomerEdit";
-import { CustomerShow } from "./customer/CustomerShow";
-import { AddressList } from "./address/AddressList";
-import { AddressCreate } from "./address/AddressCreate";
-import { AddressEdit } from "./address/AddressEdit";
-import { AddressShow } from "./address/AddressShow";
-import { ProductList } from "./product/ProductList";
-import { ProductCreate } from "./product/ProductCreate";
-import { ProductEdit } from "./product/ProductEdit";
-import { ProductShow } from "./product/ProductShow";
+import { RoleList } from "./role/RoleList";
+import { RoleCreate } from "./role/RoleCreate";
+import { RoleEdit } from "./role/RoleEdit";
+import { RoleShow } from "./role/RoleShow";
+import { UserTypeList } from "./userType/UserTypeList";
+import { UserTypeCreate } from "./userType/UserTypeCreate";
+import { UserTypeEdit } from "./userType/UserTypeEdit";
+import { UserTypeShow } from "./userType/UserTypeShow";
+import { TemplateList } from "./template/TemplateList";
+import { TemplateCreate } from "./template/TemplateCreate";
+import { TemplateEdit } from "./template/TemplateEdit";
+import { TemplateShow } from "./template/TemplateShow";
+import { DocumentList } from "./document/DocumentList";
+import { DocumentCreate } from "./document/DocumentCreate";
+import { DocumentEdit } from "./document/DocumentEdit";
+import { DocumentShow } from "./document/DocumentShow";
+import { ContentList } from "./content/ContentList";
+import { ContentCreate } from "./content/ContentCreate";
+import { ContentEdit } from "./content/ContentEdit";
+import { ContentShow } from "./content/ContentShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -59,32 +63,39 @@ const App = (): React.ReactElement => {
           show={UserShow}
         />
         <Resource
-          name="Order"
-          list={OrderList}
-          edit={OrderEdit}
-          create={OrderCreate}
-          show={OrderShow}
+          name="Role"
+          list={RoleList}
+          edit={RoleEdit}
+          create={RoleCreate}
+          show={RoleShow}
         />
         <Resource
-          name="Customer"
-          list={CustomerList}
-          edit={CustomerEdit}
-          create={CustomerCreate}
-          show={CustomerShow}
+          name="UserType"
+          list={UserTypeList}
+          edit={UserTypeEdit}
+          create={UserTypeCreate}
+          show={UserTypeShow}
         />
         <Resource
-          name="Address"
-          list={AddressList}
-          edit={AddressEdit}
-          create={AddressCreate}
-          show={AddressShow}
+          name="Template"
+          list={TemplateList}
+          edit={TemplateEdit}
+          create={TemplateCreate}
+          show={TemplateShow}
         />
         <Resource
-          name="Product"
-          list={ProductList}
-          edit={ProductEdit}
-          create={ProductCreate}
-          show={ProductShow}
+          name="Document"
+          list={DocumentList}
+          edit={DocumentEdit}
+          create={DocumentCreate}
+          show={DocumentShow}
+        />
+        <Resource
+          name="Content"
+          list={ContentList}
+          edit={ContentEdit}
+          create={ContentCreate}
+          show={ContentShow}
         />
       </Admin>
     </div>

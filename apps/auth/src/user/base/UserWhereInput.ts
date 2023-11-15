@@ -11,23 +11,72 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
 import { StringFilter } from "../../util/StringFilter";
+import { Type } from "class-transformer";
+import { IsOptional, ValidateNested } from "class-validator";
+import { DateTimeFilter } from "../../util/DateTimeFilter";
+import { DocumentListRelationFilter } from "../../document/base/DocumentListRelationFilter";
+import { RoleWhereUniqueInput } from "../../role/base/RoleWhereUniqueInput";
+import { UserTypeWhereUniqueInput } from "../../userType/base/UserTypeWhereUniqueInput";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
 
 @InputType()
 class UserWhereInput {
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: StringFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  firstName?: StringNullableFilter;
+  address?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: DateTimeFilter,
+  })
+  @Type(() => DateTimeFilter)
+  @IsOptional()
+  @Field(() => DateTimeFilter, {
+    nullable: true,
+  })
+  birthday?: DateTimeFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => DocumentListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => DocumentListRelationFilter)
+  @IsOptional()
+  @Field(() => DocumentListRelationFilter, {
+    nullable: true,
+  })
+  documents?: DocumentListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  email?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  firstName?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -42,14 +91,48 @@ class UserWhereInput {
 
   @ApiProperty({
     required: false,
-    type: StringNullableFilter,
+    type: StringFilter,
   })
-  @Type(() => StringNullableFilter)
+  @Type(() => StringFilter)
   @IsOptional()
-  @Field(() => StringNullableFilter, {
+  @Field(() => StringFilter, {
     nullable: true,
   })
-  lastName?: StringNullableFilter;
+  lastName?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  phone?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => RoleWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => RoleWhereUniqueInput)
+  @IsOptional()
+  @Field(() => RoleWhereUniqueInput, {
+    nullable: true,
+  })
+  role?: RoleWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: StringFilter,
+  })
+  @Type(() => StringFilter)
+  @IsOptional()
+  @Field(() => StringFilter, {
+    nullable: true,
+  })
+  state?: StringFilter;
 
   @ApiProperty({
     required: false,
@@ -61,6 +144,29 @@ class UserWhereInput {
     nullable: true,
   })
   username?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserTypeWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => UserTypeWhereUniqueInput)
+  @IsOptional()
+  @Field(() => UserTypeWhereUniqueInput, {
+    nullable: true,
+  })
+  userType?: UserTypeWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  zip?: StringNullableFilter;
 }
 
 export { UserWhereInput as UserWhereInput };

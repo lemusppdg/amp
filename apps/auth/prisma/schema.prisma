@@ -8,60 +8,71 @@ generator client {
 }
 
 model User {
-  createdAt DateTime @default(now())
-  firstName String?
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  lastName  String?
-  password  String
-  roles     Json
-  updatedAt DateTime @updatedAt
-  username  String   @unique
+  address    String
+  birthday   DateTime
+  createdAt  DateTime   @default(now())
+  documents  Document[]
+  email      String
+  firstName  String
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  lastName   String
+  password   String
+  phone      String
+  role       Role?      @relation(fields: [roleId], references: [id])
+  roleId     String?    @db.ObjectId
+  roles      Json
+  state      String
+  updatedAt  DateTime   @updatedAt
+  username   String     @unique
+  userType   UserType?  @relation(fields: [userTypeId], references: [id])
+  userTypeId String?    @db.ObjectId
+  zip        String?
 }
 
-model Order {
-  createdAt  DateTime  @default(now())
-  customer   Customer? @relation(fields: [customerId], references: [id])
-  customerId String?   @db.ObjectId
-  discount   Float?
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  product    Product?  @relation(fields: [productId], references: [id])
-  productId  String?   @db.ObjectId
-  quantity   Int?
-  totalPrice Int?
-  updatedAt  DateTime  @updatedAt
-}
-
-model Customer {
-  address   Address? @relation(fields: [addressId], references: [id])
-  addressId String?  @db.ObjectId
-  createdAt DateTime @default(now())
-  email     String?
-  firstName String?
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  lastName  String?
-  orders    Order[]
-  phone     String?
-  updatedAt DateTime @updatedAt
-}
-
-model Address {
-  address_1 String?
-  address_2 String?
-  city      String?
-  createdAt DateTime   @default(now())
-  customers Customer[]
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  state     String?
-  updatedAt DateTime   @updatedAt
-  zip       Int?
-}
-
-model Product {
+model Role {
   createdAt   DateTime @default(now())
   description String?
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  itemPrice   Float?
-  name        String?
-  orders      Order[]
+  title       String
   updatedAt   DateTime @updatedAt
+  users       User[]
+}
+
+model UserType {
+  createdAt DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  title     String?
+  updatedAt DateTime @updatedAt
+  users     User[]
+}
+
+model Template {
+  createdAt DateTime   @default(now())
+  documents Document[]
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  updatedAt DateTime   @updatedAt
+}
+
+model Document {
+  createdAt      DateTime  @default(now())
+  expirationDate DateTime
+  file           Json
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  isComplete     Boolean
+  name           String
+  template       Template? @relation(fields: [templateId], references: [id])
+  templateId     String?   @db.ObjectId
+  updatedAt      DateTime  @updatedAt
+  user           User?     @relation(fields: [userId], references: [id])
+  userId         String?   @db.ObjectId
+}
+
+model Content {
+  createdAt DateTime @default(now())
+  files     Json?
+  header    String
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  images    Json?
+  text      String?
+  updatedAt DateTime @updatedAt
 }

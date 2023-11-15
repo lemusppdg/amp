@@ -11,10 +11,14 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import { IsString, IsOptional, IsDate, ValidateNested } from "class-validator";
+import { Type } from "class-transformer";
+import { DocumentUpdateManyWithoutUsersInput } from "./DocumentUpdateManyWithoutUsersInput";
+import { RoleWhereUniqueInput } from "../../role/base/RoleWhereUniqueInput";
 import { IsJSONValue } from "@app/custom-validators";
 import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
+import { UserTypeWhereUniqueInput } from "../../userType/base/UserTypeWhereUniqueInput";
 
 @InputType()
 class UserUpdateInput {
@@ -27,7 +31,30 @@ class UserUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  firstName?: string | null;
+  address?: string;
+
+  @ApiProperty({
+    required: false,
+  })
+  @IsDate()
+  @Type(() => Date)
+  @IsOptional()
+  @Field(() => Date, {
+    nullable: true,
+  })
+  birthday?: Date;
+
+  @ApiProperty({
+    required: false,
+    type: () => DocumentUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => DocumentUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => DocumentUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  documents?: DocumentUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,
@@ -38,7 +65,29 @@ class UserUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
-  lastName?: string | null;
+  email?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  firstName?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  lastName?: string;
 
   @ApiProperty({
     required: false,
@@ -50,6 +99,29 @@ class UserUpdateInput {
     nullable: true,
   })
   password?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  phone?: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => RoleWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => RoleWhereUniqueInput)
+  @IsOptional()
+  @Field(() => RoleWhereUniqueInput, {
+    nullable: true,
+  })
+  role?: RoleWhereUniqueInput | null;
 
   @ApiProperty({
     required: false,
@@ -70,7 +142,41 @@ class UserUpdateInput {
   @Field(() => String, {
     nullable: true,
   })
+  state?: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
   username?: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => UserTypeWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => UserTypeWhereUniqueInput)
+  @IsOptional()
+  @Field(() => UserTypeWhereUniqueInput, {
+    nullable: true,
+  })
+  userType?: UserTypeWhereUniqueInput | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  zip?: string | null;
 }
 
 export { UserUpdateInput as UserUpdateInput };

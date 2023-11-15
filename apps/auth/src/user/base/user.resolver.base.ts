@@ -26,6 +26,10 @@ import { UserCountArgs } from "./UserCountArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
+import { DocumentFindManyArgs } from "../../document/base/DocumentFindManyArgs";
+import { Document } from "../../document/base/Document";
+import { Role } from "../../role/base/Role";
+import { UserType } from "../../userType/base/UserType";
 import { UserService } from "../user.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => User)
@@ -86,7 +90,21 @@ export class UserResolverBase {
   async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        ...args.data,
+
+        role: args.data.role
+          ? {
+              connect: args.data.role,
+            }
+          : undefined,
+
+        userType: args.data.userType
+          ? {
+              connect: args.data.userType,
+            }
+          : undefined,
+      },
     });
   }
 
@@ -101,7 +119,21 @@ export class UserResolverBase {
     try {
       return await this.service.update({
         ...args,
-        data: args.data,
+        data: {
+          ...args.data,
+
+          role: args.data.role
+            ? {
+                connect: args.data.role,
+              }
+            : undefined,
+
+          userType: args.data.userType
+            ? {
+                connect: args.data.userType,
+              }
+            : undefined,
+        },
       });
     } catch (error) {
       if (isRecordNotFoundError(error)) {
@@ -130,5 +162,65 @@ export class UserResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [Document], { name: "documents" })
+  @nestAccessControl.UseRoles({
+    resource: "Document",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldDocuments(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: DocumentFindManyArgs
+  ): Promise<Document[]> {
+    const results = await this.service.findDocuments(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => Role, {
+    nullable: true,
+    name: "role",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "Role",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldRole(@graphql.Parent() parent: User): Promise<Role | null> {
+    const result = await this.service.getRole(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => UserType, {
+    nullable: true,
+    name: "userType",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "UserType",
+    action: "read",
+    possession: "any",
+  })
+  async resolveFieldUserType(
+    @graphql.Parent() parent: User
+  ): Promise<UserType | null> {
+    const result = await this.service.getUserType(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }
